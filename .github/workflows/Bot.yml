@@ -1,22 +1,26 @@
-name: BGMI Attack Bot
+name: 💀 Stresser Bot (Multi-Method)
 
 on:
   workflow_dispatch:
     inputs:
       target_ip:
-        description: 'Target IP'
+        description: '🎯 Target IP'
         required: true
       target_port:
-        description: 'Port'
+        description: '🔌 Port'
         required: true
         default: '27015'
       duration:
-        description: 'Duration (sec)'
+        description: '⏱ Duration (sec)'
         required: true
         default: '60'
+      method:
+        description: '⚔️ Method (udp/tcp/icmp/game)'
+        required: true
+        default: 'udp'
 
 jobs:
-  bot-runner:
+  stresser-node:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -37,10 +41,10 @@ jobs:
           pip install --upgrade pip
           pip install pyTelegramBotAPI pymongo certifi
 
-      - name: Run Bot
+      - name: Run Stresser Node
         env:
           RUNNER_ID: ${{ matrix.runner_id }}
-          BOT_TOKENS: ${{ secrets.BOT_TOKENS }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
           ADMIN_ID: ${{ secrets.ADMIN_ID }}
-        run: python telegram_attack_bot_v2.py
+        run: python stresser_bot.py
