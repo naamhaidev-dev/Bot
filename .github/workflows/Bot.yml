@@ -1,4 +1,4 @@
-name: Multi-Bot UDP Attack (BGMI)
+name: BGMI Attack Bot
 
 on:
   workflow_dispatch:
@@ -11,12 +11,12 @@ on:
         required: true
         default: '27015'
       duration:
-        description: 'Duration (seconds)'
+        description: 'Duration (sec)'
         required: true
         default: '60'
 
 jobs:
-  attack:
+  bot-runner:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,24 +32,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install deps
+      - name: Install Dependencies
         run: |
           pip install --upgrade pip
-          pip install pyTelegramBotAPI pymongo certifi pytz
+          pip install pyTelegramBotAPI pymongo certifi
 
-      - name: Run Bot (Runner ${{ matrix.runner_id }})
+      - name: Run Bot
         env:
           RUNNER_ID: ${{ matrix.runner_id }}
-          BOT_TOKEN_1: ${{ secrets.BOT_TOKEN_1 }}
-          BOT_TOKEN_2: ${{ secrets.BOT_TOKEN_2 }}
-          BOT_TOKEN_3: ${{ secrets.BOT_TOKEN_3 }}
-          BOT_TOKEN_4: ${{ secrets.BOT_TOKEN_4 }}
-          BOT_TOKEN_5: ${{ secrets.BOT_TOKEN_5 }}
-          BOT_TOKEN_6: ${{ secrets.BOT_TOKEN_6 }}
-          BOT_TOKEN_7: ${{ secrets.BOT_TOKEN_7 }}
-          BOT_TOKEN_8: ${{ secrets.BOT_TOKEN_8 }}
-          BOT_TOKEN_9: ${{ secrets.BOT_TOKEN_9 }}
-          BOT_TOKEN_10: ${{ secrets.BOT_TOKEN_10 }}
+          BOT_TOKENS: ${{ secrets.BOT_TOKENS }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
           ADMIN_ID: ${{ secrets.ADMIN_ID }}
-        run: python telegram_attack_bot.py
+        run: python telegram_attack_bot_v2.py
